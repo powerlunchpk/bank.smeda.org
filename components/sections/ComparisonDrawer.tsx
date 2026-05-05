@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRightLeft, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
@@ -65,16 +66,26 @@ export default function ComparisonDrawer({ selectedProducts, onRemove, onClear, 
                             referrerPolicy="no-referrer"
                           />
                         </div>
-                        <div className="ml-2 lg:ml-3 pr-6 overflow-hidden">
+                        <div className="ml-2 lg:ml-3 pr-10 overflow-hidden">
                           <p className="text-[10px] lg:text-xs font-bold text-slate-800 truncate leading-none mb-0.5">{product.productName}</p>
                           <p className="text-[9px] lg:text-[10px] font-semibold text-smeda-blue truncate">{product.bankName}</p>
                         </div>
-                        <button
-                          onClick={() => onRemove(product.id)}
-                          className="absolute right-1.5 top-1.5 p-1 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
+                        <div className="absolute right-1.5 top-0 bottom-0 flex flex-col justify-center gap-1">
+                          <button
+                            onClick={() => onRemove(product.id)}
+                            className="p-1 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm"
+                            title="Remove"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                          <Link
+                            href={`/apply/${product.id}`}
+                            className="p-1 text-slate-400 hover:text-smeda-blue hover:bg-white rounded-md transition-all shadow-sm"
+                            title="Quick Apply"
+                          >
+                            <ArrowRightLeft className="w-3 h-3" />
+                          </Link>
+                        </div>
                       </>
                     ) : (
                       <div className="flex items-center gap-2 opacity-50">

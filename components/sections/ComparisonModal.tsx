@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle2, Building2, MapPin, Search } from 'lucide-react';
 import Image from 'next/image';
@@ -134,12 +135,18 @@ export default function ComparisonModal({ isOpen, onClose, products }: Compariso
                 <div />
                 {products.map(p => (
                   <div key={p.id} className="text-center px-4">
-                    <button className="w-full bg-smeda-blue text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-blue-500/10 hover:bg-blue-800 transition-all">
+                    <Link 
+                      href={`/apply/${p.id}`}
+                      className="inline-block w-full bg-smeda-blue text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-blue-500/10 hover:bg-blue-800 transition-all"
+                    >
                       Apply Now
-                    </button>
-                    <button className="mt-2 text-[10px] font-bold text-slate-400 hover:text-smeda-blue uppercase tracking-widest">
+                    </Link>
+                    <Link 
+                      href={`/products/${p.id}`}
+                      className="mt-2 text-[10px] font-bold text-slate-400 hover:text-smeda-blue uppercase tracking-widest block"
+                    >
                       View full details
-                    </button>
+                    </Link>
                   </div>
                 ))}
               </div>

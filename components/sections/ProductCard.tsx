@@ -98,7 +98,7 @@ export default function ProductCard({ product, isCompared, onCompareToggle, disa
         </div>
 
         {/* Footer Actions */}
-        <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between">
+        <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex gap-2">
             {product.purpose.slice(0, 2).map((p) => (
               <span key={p} className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-bold border border-slate-200">
@@ -106,12 +106,20 @@ export default function ProductCard({ product, isCompared, onCompareToggle, disa
               </span>
             ))}
           </div>
-          <Link 
-            href={`/products/${product.id}`}
-            className="flex items-center gap-2 text-smeda-blue font-bold text-sm hover:translate-x-1 transition-transform"
-          >
-            View Details <ExternalLink className="w-4 h-4" />
-          </Link>
+          <div className="flex items-center gap-4 w-full sm:w-auto">
+            <Link 
+              href={`/products/${product.id}`}
+              className="flex-1 sm:flex-none text-center px-4 py-2 text-slate-500 font-bold text-sm hover:text-smeda-blue transition-colors"
+            >
+              Details
+            </Link>
+            <Link 
+              href={`/apply/${product.id}`}
+              className="flex-1 sm:flex-none bg-smeda-blue text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-800 transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-2"
+            >
+              Apply <ExternalLink className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

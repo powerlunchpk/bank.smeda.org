@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
@@ -74,12 +75,12 @@ export default function Hero() {
             {SLIDES[current].description}
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-white text-smeda-blue px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition-all flex items-center gap-2 group">
+            <a href="#products" className="bg-white text-smeda-blue px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition-all flex items-center gap-2 group">
               Get Started <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-all">
+            </a>
+            <Link href="/how-it-works" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-all">
               Learn More
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>

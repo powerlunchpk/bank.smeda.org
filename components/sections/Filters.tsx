@@ -42,6 +42,13 @@ export default function Filters({ state, setState }: FiltersProps) {
     }));
   };
 
+  const filterByGroup = (key: keyof FilterState, values: string[], action: 'all' | 'none') => {
+    setState(prev => ({
+      ...prev,
+      [key]: action === 'all' ? values : []
+    }));
+  };
+
   const activeFiltersCount = Object.values(state).flat().filter(v => v !== null).length;
 
   return (
@@ -83,6 +90,8 @@ export default function Filters({ state, setState }: FiltersProps) {
             options={PURPOSES}
             selected={state.purpose}
             onToggle={(val) => toggleFilter('purpose', val)}
+            onSelectAll={() => filterByGroup('purpose', PURPOSES, 'all')}
+            onDeselectAll={() => filterByGroup('purpose', PURPOSES, 'none')}
           />
 
           {/* Sector */}
@@ -91,6 +100,8 @@ export default function Filters({ state, setState }: FiltersProps) {
             options={SECTORS}
             selected={state.sector}
             onToggle={(val) => toggleFilter('sector', val)}
+            onSelectAll={() => filterByGroup('sector', SECTORS, 'all')}
+            onDeselectAll={() => filterByGroup('sector', SECTORS, 'none')}
           />
 
           {/* Financial Institution */}
@@ -99,6 +110,8 @@ export default function Filters({ state, setState }: FiltersProps) {
             options={BANKS}
             selected={state.bank}
             onToggle={(val) => toggleFilter('bank', val)}
+            onSelectAll={() => filterByGroup('bank', BANKS, 'all')}
+            onDeselectAll={() => filterByGroup('bank', BANKS, 'none')}
           />
 
           {/* City */}
@@ -107,6 +120,8 @@ export default function Filters({ state, setState }: FiltersProps) {
             options={CITIES}
             selected={state.city}
             onToggle={(val) => toggleFilter('city', val)}
+            onSelectAll={() => filterByGroup('city', CITIES, 'all')}
+            onDeselectAll={() => filterByGroup('city', CITIES, 'none')}
           />
 
           {/* Loan Amount Range */}
@@ -131,15 +146,51 @@ export default function Filters({ state, setState }: FiltersProps) {
   );
 }
 
-function FilterGroup({ title, options, selected, onToggle }: { title: string, options: string[], selected: string[], onToggle: (val: string) => void }) {
+function FilterGroup({ 
+  title, 
+  options, 
+  selected, 
+  onToggle, 
+  onSelectAll, 
+  onDeselectAll 
+}: { 
+  title: string, 
+  options: string[], 
+  selected: string[], 
+  onToggle: (val: string) => void,
+  onSelectAll: () => void,
+  onDeselectAll: () => void
+}) {
   const [isOpen, setIsOpen] = React.useState(true);
 
   return (
     <div className="space-y-3">
-      <button onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-between w-full">
-        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer">{title}</label>
-        <span className="text-[10px] font-bold text-slate-300 tracking-widest">{isOpen ? '−' : '+'}</span>
-      </button>
+      <div className="flex items-center justify-between w-full group/title">
+        <button onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 flex-grow text-left">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer group-hover/title:text-smeda-blue transition-colors">
+            {title}
+          </label>
+          <span className="text-[10px] font-bold text-slate-300 tracking-widest">{isOpen ? '−' : '+'}</span>
+        </button>
+        
+        {isOpen && (
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={onSelectAll}
+              className="text-[9px] font-bold text-slate-400 hover:text-smeda-blue uppercase"
+            >
+              All
+            </button>
+            <span className="text-slate-200 text-[9px]">|</span>
+            <button 
+              onClick={onDeselectAll}
+              className="text-[9px] font-bold text-slate-400 hover:text-red-500 uppercase"
+            >
+              None
+            </button>
+          </div>
+        )}
+      </div>
       {isOpen && (
         <div className="grid grid-cols-1 gap-2">
           {options.map(option => (

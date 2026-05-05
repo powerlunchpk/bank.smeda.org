@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
 import VideoCarousel from '@/components/sections/VideoCarousel';
@@ -28,12 +28,21 @@ export default function Home() {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState<SortOption>('a-z');
   const [comparedProducts, setComparedProducts] = useState<BankingProduct[]>([]);
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 400);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   const filteredProducts = useMemo(() => {
-    const query = searchQuery.toLowerCase().trim();
+    const query = debouncedSearchQuery.toLowerCase().trim();
     
     let result = [...MOCK_PRODUCTS].filter(product => {
       const matchPurpose = filterState.purpose.length === 0 || filterState.purpose.some(p => product.purpose.includes(p));

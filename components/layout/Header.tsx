@@ -2,10 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, Search, User, PhoneCall } from 'lucide-react';
 
 export default function Header() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const scrollToSearch = () => {
+    if (pathname !== '/') {
+      router.push('/#products');
+      return;
+    }
     const searchInput = document.getElementById('main-search-input');
     if (searchInput) {
       searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -42,15 +50,23 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <button 
               onClick={scrollToSearch}
+              title="Search banking products"
               className="p-2 text-slate-500 hover:text-smeda-blue rounded-full hover:bg-slate-50 transition-all"
             >
               <Search className="w-5 h-5" />
             </button>
-            <Link href="tel:+9242111111456" className="hidden sm:flex items-center gap-2 bg-smeda-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/10">
+            <Link 
+              href="tel:+9242111111456" 
+              title="Call our support helpline"
+              className="hidden sm:flex items-center gap-2 bg-smeda-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/10"
+            >
               <PhoneCall className="w-4 h-4" />
               <span>Call Us</span>
             </Link>
-            <button className="md:hidden p-2 text-slate-600">
+            <button 
+              title="Main Menu"
+              className="md:hidden p-2 text-slate-600"
+            >
               <Menu className="w-6 h-6" />
             </button>
           </div>
