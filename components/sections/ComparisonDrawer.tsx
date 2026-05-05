@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowRightLeft, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion } from 'motion/react';
+import { X, ArrowRightLeft, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { BankingProduct } from '@/lib/types';
 
@@ -81,9 +81,9 @@ export default function ComparisonDrawer({ selectedProducts, onRemove, onClear, 
                           <Link
                             href={`/apply/${product.id}`}
                             className="p-1 text-slate-400 hover:text-smeda-blue hover:bg-white rounded-md transition-all shadow-sm"
-                            title="Quick Apply"
+                            title="Apply Now"
                           >
-                            <ArrowRightLeft className="w-3 h-3" />
+                            <ExternalLink className="w-3 h-3" />
                           </Link>
                         </div>
                       </>
@@ -120,8 +120,8 @@ export default function ComparisonDrawer({ selectedProducts, onRemove, onClear, 
         {/* Mobile Summary (when collapsed) */}
         <div className={`lg:hidden flex items-center justify-between ${isExpanded ? 'hidden' : 'flex'}`}>
             <div className="flex -space-x-4">
-                {selectedProducts.map((p, i) => (
-                    <div key={p.id} className="w-10 h-10 rounded-full border-4 border-white bg-white shadow-md overflow-hidden relative z-[i]">
+                {selectedProducts.map((p, index) => (
+                    <div key={p.id} className="w-10 h-10 rounded-full border-4 border-white bg-white shadow-md overflow-hidden relative" style={{ zIndex: index }}>
                          <Image src={p.bankLogo} alt="Logo" fill className="object-contain p-1" />
                     </div>
                 ))}

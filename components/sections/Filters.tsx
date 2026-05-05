@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, Search } from 'lucide-react';
+import { X } from 'lucide-react';
 import { FilterState } from '@/lib/types';
 
 interface FiltersProps {

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, Search, User, PhoneCall } from 'lucide-react';
+import { Menu, Search, PhoneCall } from 'lucide-react';
 
 export default function Header() {
   const pathname = usePathname();

@@ -1,17 +1,12 @@
-'use client';
-
-import React, { use } from 'react';
+import React from 'react';
 import { MOCK_PRODUCTS } from '@/lib/data';
 import Header from '@/components/layout/Header';
 import ContactUs from '@/components/sections/ContactUs';
 import { 
-  ArrowLeft, 
   CheckCircle2, 
   FileText, 
-  UserCircle, 
   Phone, 
   Mail, 
-  MapPin, 
   Share2, 
   Download,
   Info,
@@ -21,8 +16,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export function generateStaticParams() {
+  return MOCK_PRODUCTS.map((product) => ({
+    id: product.id,
+  }));
+}
+
+export default async function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const product = MOCK_PRODUCTS.find((p) => p.id === id);
 
   if (!product) {
@@ -61,7 +62,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                     <span className="px-3 py-1 bg-blue-50 text-smeda-blue rounded-full text-[10px] font-bold uppercase tracking-wider">{product.bankName}</span>
                     <span className="text-slate-300">|</span>
                     <span className="text-slate-500 text-xs font-medium flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" /> Updated {product.lastUpdated}
+                      <CalendarIcon className="w-3.5 h-3.5" /> Updated {product.lastUpdated}
                     </span>
                   </div>
                   <h1 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">{product.productName}</h1>
@@ -69,7 +70,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                 </div>
                 <div className="flex flex-col gap-3 w-full md:w-auto">
                   <Link href={`/apply/${product.id}`} className="bg-smeda-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-500/10">
-                    Apply Now <ArrowRight className="w-4 h-4" />
+                    Apply Now <ArrowRightIcon className="w-4 h-4" />
                   </Link>
                   <button className="flex items-center justify-center gap-2 text-slate-500 font-bold text-sm hover:text-slate-900 transition-colors py-2">
                     <Share2 className="w-4 h-4" /> Share Product
@@ -174,7 +175,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                 <Info className="w-8 h-8" />
               </div>
               <p className="text-sm font-bold text-smeda-blue mb-2">Need Guidance?</p>
-              <p className="text-xs text-slate-500 mb-6">Download our "Beginners Guide to SME Financing" to help prepare your documentation.</p>
+              <p className="text-xs text-slate-500 mb-6">Download our &quot;Beginners Guide to SME Financing&quot; to help prepare your documentation.</p>
               <button className="w-full py-3 bg-white text-smeda-blue rounded-xl font-bold text-sm border border-blue-100 hover:bg-blue-100 transition-colors shadow-sm">
                 Download Guide
               </button>
@@ -197,10 +198,10 @@ function SpecItem({ label, value }: { label: string, value: string }) {
   );
 }
 
-function Calendar(props: any) {
+function CalendarIcon(props: React.SVGProps<SVGSVGElement>) {
   return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>;
 }
 
-function ArrowRight(props: any) {
+function ArrowRightIcon(props: React.SVGProps<SVGSVGElement>) {
   return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>;
 }

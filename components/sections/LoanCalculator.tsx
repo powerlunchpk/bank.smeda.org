@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Calculator, Percent, Calendar, DollarSign, ArrowRight, RefreshCcw } from 'lucide-react';
-import { motion } from 'motion/react';
 
 export default function LoanCalculator() {
   const [amount, setAmount] = useState<number>(1000000);
@@ -112,12 +112,12 @@ export default function LoanCalculator() {
               </div>
 
               <div className="pt-4 flex gap-4">
-                <a 
+                <Link 
                   href="/#products"
                   className="flex-grow bg-smeda-blue text-white py-4 rounded-2xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2"
                 >
                   Find a Loan <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
                 <button 
                   onClick={() => { setAmount(1000000); setRate(12); setTenure(5); }}
                   className="p-4 bg-slate-50 text-slate-400 hover:text-smeda-blue hover:bg-slate-100 rounded-2xl transition-all"

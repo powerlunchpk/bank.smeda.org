@@ -44,7 +44,7 @@ export default function Home() {
   const filteredProducts = useMemo(() => {
     const query = debouncedSearchQuery.toLowerCase().trim();
     
-    let result = [...MOCK_PRODUCTS].filter(product => {
+    const result = [...MOCK_PRODUCTS].filter(product => {
       const matchPurpose = filterState.purpose.length === 0 || filterState.purpose.some(p => product.purpose.includes(p));
       const matchSector = filterState.sector.length === 0 || filterState.sector.some(s => product.sectors.includes(s));
       const matchBank = filterState.bank.length === 0 || filterState.bank.some(b => product.bankName.includes(b));
@@ -71,7 +71,7 @@ export default function Home() {
     }
 
     return result;
-  }, [filterState, sortOption]);
+  }, [debouncedSearchQuery, filterState, sortOption]);
 
   const toggleCompare = (product: BankingProduct) => {
     setComparedProducts(prev => {

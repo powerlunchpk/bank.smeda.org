@@ -62,6 +62,7 @@ export default function IncentiveCards() {
             </div>
           </div>
         </div>
+        <SectionBottom />
       </div>
     </section>
   );

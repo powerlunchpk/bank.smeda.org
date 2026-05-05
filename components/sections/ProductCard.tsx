@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Calendar, MapPin, Building2, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 import { BankingProduct } from '@/lib/types';
 
 interface ProductCardProps {

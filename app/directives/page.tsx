@@ -3,8 +3,7 @@
 import React from 'react';
 import Header from '@/components/layout/Header';
 import ContactUs from '@/components/sections/ContactUs';
-import { Gavel, FileText, Download, ShieldAlert, BookOpen } from 'lucide-react';
-import Link from 'next/link';
+import { Gavel, Download, ShieldAlert } from 'lucide-react';
 
 export default function Directives() {
   return (

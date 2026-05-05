@@ -5,13 +5,10 @@ import Header from '@/components/layout/Header';
 import ContactUs from '@/components/sections/ContactUs';
 import { 
   Building2, 
-  TrendingUp, 
   ShieldCheck, 
   ArrowRight, 
-  FileCheck, 
   PieChart, 
-  Globe2,
-  BookOpen
+  Globe2
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';

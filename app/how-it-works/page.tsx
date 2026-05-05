@@ -3,7 +3,7 @@
 import React from 'react';
 import Header from '@/components/layout/Header';
 import ContactUs from '@/components/sections/ContactUs';
-import { Search, ArrowRightLeft, FileCheck, CheckCircle2, Building2, UserCheck, ShieldCheck } from 'lucide-react';
+import { Search, ArrowRightLeft, UserCheck, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
