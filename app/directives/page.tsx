@@ -5,25 +5,29 @@ import Header from '@/components/layout/Header';
 import ContactUs from '@/components/sections/ContactUs';
 import { Gavel, Download, ShieldAlert } from 'lucide-react';
 
+import { useSettings } from '@/lib/context/SettingsContext';
+
 export default function Directives() {
+  const { t } = useSettings();
+
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-page-bg transition-colors">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex flex-col lg:flex-row gap-16">
           <div className="lg:w-1/3">
              <div className="sticky top-32">
-                <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-smeda-blue mb-8">
+                <div className="w-16 h-16 bg-card-bg rounded-2xl shadow-sm border border-border flex items-center justify-center text-primary mb-8 transition-colors">
                    <Gavel className="w-8 h-8" />
-                </div>
-                <h1 className="text-4xl font-display font-bold text-slate-900 mb-6 leading-tight">Banking & SME Directives</h1>
-                <p className="text-slate-500 leading-relaxed mb-8">
-                   Stay updated with the latest circulars and regulatory directives issued by the State Bank of Pakistan and Ministry of Industries.
+                 </div>
+                <h1 className="text-4xl font-display font-bold text-text-main mb-6 leading-tight transition-colors">{t.directives.title}</h1>
+                <p className="text-text-muted leading-relaxed mb-8 transition-colors">
+                   {t.directives.subtitle}
                 </p>
-                <div className="p-6 bg-blue-50 rounded-2xl border border-blue-100 text-smeda-blue text-sm font-bold flex items-center gap-3">
+                <div className="p-6 bg-primary/10 rounded-2xl border border-primary/20 text-primary text-sm font-bold flex items-center gap-3 transition-colors">
                    <ShieldAlert className="w-5 h-5 flex-shrink-0" />
-                   Recent Update: SME Policy 2024 enacted.
+                   {t.directives.recentUpdate}
                 </div>
              </div>
           </div>
@@ -31,28 +35,33 @@ export default function Directives() {
           <div className="flex-grow space-y-6">
              <DirectiveItem 
                 date="25 April 2025"
-                title="Revised PRs for SME Financing"
-                desc="Detailed Prudential Regulations for Small and Medium Enterprises with updated collateral limits."
+                title={t.directives.d1Title}
+                desc={t.directives.d1Desc}
+                label={t.directives.regulatory}
              />
              <DirectiveItem 
                 date="10 April 2025"
-                title="SBP Circular on SAAF Subsidies"
-                desc="Procedural changes for SME Asaan Finance scheme allocations for private banks."
+                title={t.directives.d2Title}
+                desc={t.directives.d2Desc}
+                label={t.directives.regulatory}
              />
              <DirectiveItem 
                 date="02 March 2025"
-                title="Electronic CIB Guideline Update"
-                desc="Updated reporting requirements for small business credit facilities."
+                title={t.directives.d3Title}
+                desc={t.directives.d3Desc}
+                label={t.directives.regulatory}
              />
              <DirectiveItem 
                 date="15 Feb 2025"
-                title="Anti-Money Laundering Compliance"
-                desc="KYC requirements specifically tailored for small wholesale businesses."
+                title={t.directives.d4Title}
+                desc={t.directives.d4Desc}
+                label={t.directives.regulatory}
              />
              <DirectiveItem 
                 date="20 Jan 2025"
-                title="SME Classification Thresholds"
-                desc="Revised definitions for what constitutes a 'Medium' enterprise based on turnover."
+                title={t.directives.d5Title}
+                desc={t.directives.d5Desc}
+                label={t.directives.regulatory}
              />
           </div>
         </div>
@@ -63,21 +72,22 @@ export default function Directives() {
   );
 }
 
-function DirectiveItem({ date, title, desc }: { date: string, title: string, desc: string }) {
+function DirectiveItem({ date, title, desc, label }: { date: string, title: string, desc: string, label: string }) {
   return (
-    <div className="p-8 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg transition-all group flex items-start justify-between gap-8">
+    <div className="p-8 bg-card-bg rounded-3xl border border-border shadow-sm hover:shadow-lg transition-all group flex items-start justify-between gap-8">
        <div className="space-y-4">
           <div className="flex items-center gap-2">
-             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{date}</span>
-             <div className="w-1 h-1 bg-slate-200 rounded-full" />
-             <span className="text-[10px] font-bold text-smeda-blue uppercase tracking-widest">Regulatory</span>
+             <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{date}</span>
+             <div className="w-1 h-1 bg-border rounded-full" />
+             <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{label}</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900 group-hover:text-smeda-blue transition-colors">{title}</h3>
-          <p className="text-sm text-slate-500 leading-relaxed max-w-2xl">{desc}</p>
+          <h3 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">{title}</h3>
+          <p className="text-sm text-text-muted leading-relaxed max-w-2xl">{desc}</p>
        </div>
-       <button className="flex-shrink-0 p-4 bg-slate-50 text-slate-400 hover:text-smeda-blue hover:bg-blue-50 hover:border-blue-100 rounded-2xl border border-slate-100 transition-all self-center group">
+       <button className="flex-shrink-0 p-4 bg-page-bg text-text-muted hover:text-primary hover:bg-primary/10 hover:border-primary/20 rounded-2xl border border-border transition-all self-center group">
           <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
        </button>
     </div>
   );
 }
+

@@ -1,20 +1,26 @@
 'use client';
 
 import React from 'react';
-import { X } from 'lucide-react';
+import { X, Info } from 'lucide-react';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 import { FilterState } from '@/lib/types';
+import { useSettings } from '@/lib/context/SettingsContext';
 
 interface FiltersProps {
   state: FilterState;
   setState: React.Dispatch<React.SetStateAction<FilterState>>;
+  onClose?: () => void;
 }
 
-const PURPOSES = ['Working Capital', 'Expansion', 'Asset Purchase', 'Infrastructure', 'Agri-processing', 'Inventory'];
-const SECTORS = ['Retail', 'Manufacturing', 'Agriculture', 'Wholesale', 'Textile', 'Food', 'Services'];
-const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Quetta', 'Peshawar', 'All Cities'];
-const BANKS = ['HBL', 'Meezan Bank', 'Bank Alfalah', 'NBP', 'UBL', 'MCB'];
+export default function Filters({ state, setState, onClose }: FiltersProps) {
+  const { t } = useSettings();
+  
+  const PURPOSES = t.products.purposes;
+  const SECTORS = t.products.sectors;
+  const CITIES = t.products.cities;
+  const BANKS = t.products.banks;
 
-export default function Filters({ state, setState }: FiltersProps) {
   const toggleFilter = (key: keyof FilterState, value: string) => {
     setState(prev => {
       const current = prev[key] as string[];
@@ -53,28 +59,37 @@ export default function Filters({ state, setState }: FiltersProps) {
 
   return (
     <aside className="w-full lg:w-72 flex-shrink-0">
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-24">
+      <div className="bg-card-bg rounded-2xl shadow-sm border border-border p-6 sticky top-24 transition-colors max-h-[calc(100vh-120px)] overflow-y-auto scrollbar-hide">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-smeda-blue">Filters</h2>
-          {activeFiltersCount > 0 && (
-            <button onClick={clearAll} className="text-xs font-bold text-red-500 hover:underline px-2 py-1 rounded-md hover:bg-red-50 transition-all">
-              CLEAR ALL
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold text-primary">{t.products.filters}</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            {activeFiltersCount > 0 && (
+              <button onClick={clearAll} className="text-[10px] font-bold text-red-500 hover:bg-red-50 px-2 py-1 rounded transition-all">
+                {t.products.clearAll}
+              </button>
+            )}
+            {onClose && (
+              <button onClick={onClose} className="lg:hidden p-1 hover:bg-page-bg rounded-lg">
+                <X className="w-5 h-5 text-text-muted" />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Applied Filters Section */}
         {activeFiltersCount > 0 && (
           <div className="mb-6 space-y-2">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Applied Filters</p>
+            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{t.products.appliedFilters}</p>
             <div className="flex flex-wrap gap-2">
               {Object.entries(state).map(([key, values]) => {
                 if (key === 'loanAmount') return null;
                 return (values as string[]).map(val => (
-                  <span key={`${key}-${val}`} className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-[11px] font-semibold border border-blue-100">
+                  <span key={`${key}-${val}`} className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[11px] font-semibold border border-primary/20">
                     {val}
                     <button onClick={() => removeIndividualFilter(key as keyof FilterState, val)}>
-                      <X className="w-3 h-3 hover:text-blue-900" />
+                      <X className="w-3 h-3 hover:text-red-500" />
                     </button>
                   </span>
                 ));
@@ -83,61 +98,78 @@ export default function Filters({ state, setState }: FiltersProps) {
           </div>
         )}
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Purpose */}
           <FilterGroup
-            title="Purpose of loan"
+            title={t.products.purpose}
+            tooltip={t.products.tooltips.purpose}
             options={PURPOSES}
             selected={state.purpose}
             onToggle={(val) => toggleFilter('purpose', val)}
             onSelectAll={() => filterByGroup('purpose', PURPOSES, 'all')}
             onDeselectAll={() => filterByGroup('purpose', PURPOSES, 'none')}
+            allLabel={t.products.all}
+            noneLabel={t.products.none}
           />
 
           {/* Sector */}
           <FilterGroup
-            title="Sector of Business"
+            title={t.products.sector}
+            tooltip={t.products.tooltips.sector}
             options={SECTORS}
             selected={state.sector}
             onToggle={(val) => toggleFilter('sector', val)}
             onSelectAll={() => filterByGroup('sector', SECTORS, 'all')}
             onDeselectAll={() => filterByGroup('sector', SECTORS, 'none')}
+            allLabel={t.products.all}
+            noneLabel={t.products.none}
           />
 
           {/* Financial Institution */}
           <FilterGroup
-            title="Financial Institution"
+            title={t.products.institution}
+            tooltip={t.products.tooltips.institution}
             options={BANKS}
             selected={state.bank}
             onToggle={(val) => toggleFilter('bank', val)}
             onSelectAll={() => filterByGroup('bank', BANKS, 'all')}
             onDeselectAll={() => filterByGroup('bank', BANKS, 'none')}
+            allLabel={t.products.all}
+            noneLabel={t.products.none}
           />
 
           {/* City */}
           <FilterGroup
-            title="City"
+            title={t.products.city}
+            tooltip={t.products.tooltips.city}
             options={CITIES}
             selected={state.city}
             onToggle={(val) => toggleFilter('city', val)}
             onSelectAll={() => filterByGroup('city', CITIES, 'all')}
             onDeselectAll={() => filterByGroup('city', CITIES, 'none')}
+            allLabel={t.products.all}
+            noneLabel={t.products.none}
           />
 
           {/* Loan Amount Range */}
-          <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Max Loan Amount</label>
+          <div className="space-y-4 pt-2">
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-bold text-text-muted uppercase tracking-wider block">{t.products.maxLoan}</label>
+              <Tippy content={t.products.tooltips.amount}>
+                <Info className="w-3 h-3 text-text-muted/40 cursor-help" />
+              </Tippy>
+            </div>
             <input
               type="range"
               min="100000"
               max="50000000"
               step="100000"
-              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-smeda-blue"
+              className="w-full h-2 bg-page-bg rounded-lg appearance-none cursor-pointer accent-primary border border-border"
               onChange={(e) => setState(prev => ({ ...prev, loanAmount: parseInt(e.target.value) }))}
             />
-            <div className="flex justify-between text-[10px] font-bold text-slate-400">
-              <span>PKR 100k</span>
-              <span>PKR 50m+</span>
+            <div className="flex justify-between text-[10px] font-bold text-text-muted">
+              <span>{t.calculator.pkr} 100k</span>
+              <span>{t.calculator.pkr} 50m+</span>
             </div>
           </div>
         </div>
@@ -148,54 +180,67 @@ export default function Filters({ state, setState }: FiltersProps) {
 
 function FilterGroup({ 
   title, 
+  tooltip,
   options, 
   selected, 
   onToggle, 
   onSelectAll, 
-  onDeselectAll 
+  onDeselectAll,
+  allLabel,
+  noneLabel
 }: { 
   title: string, 
+  tooltip?: string,
   options: string[], 
   selected: string[], 
   onToggle: (val: string) => void,
   onSelectAll: () => void,
-  onDeselectAll: () => void
+  onDeselectAll: () => void,
+  allLabel: string,
+  noneLabel: string
 }) {
   const [isOpen, setIsOpen] = React.useState(true);
 
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between w-full group/title">
-        <button onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 flex-grow text-left">
-          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer group-hover/title:text-smeda-blue transition-colors">
-            {title}
-          </label>
-          <span className="text-[10px] font-bold text-slate-300 tracking-widest">{isOpen ? '−' : '+'}</span>
-        </button>
+        <div className="flex items-center gap-2 flex-grow overflow-hidden">
+          <button onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 text-left truncate">
+            <label className="text-xs font-bold text-text-muted uppercase tracking-wider cursor-pointer group-hover/title:text-primary transition-colors">
+              {title}
+            </label>
+            <span className="text-[10px] font-bold text-text-muted/30 tracking-widest">{isOpen ? '−' : '+'}</span>
+          </button>
+          {tooltip && (
+            <Tippy content={tooltip}>
+              <Info className="w-3 h-3 text-text-muted/40 cursor-help hover:text-primary transition-colors" />
+            </Tippy>
+          )}
+        </div>
         
         {isOpen && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button 
               onClick={onSelectAll}
-              className="text-[9px] font-bold text-slate-400 hover:text-smeda-blue uppercase"
+              className="text-[9px] font-bold text-text-muted/60 hover:text-primary uppercase"
             >
-              All
+              {allLabel}
             </button>
-            <span className="text-slate-200 text-[9px]">|</span>
+            <span className="text-text-muted/20 text-[9px]">|</span>
             <button 
               onClick={onDeselectAll}
-              className="text-[9px] font-bold text-slate-400 hover:text-red-500 uppercase"
+              className="text-[9px] font-bold text-text-muted/60 hover:text-red-500 uppercase"
             >
-              None
+              {noneLabel}
             </button>
           </div>
         )}
       </div>
       {isOpen && (
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-2 pt-1">
           {options.map(option => (
             <label key={option} className="flex items-center gap-3 group cursor-pointer">
-              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${selected.includes(option) ? 'bg-smeda-blue border-smeda-blue shadow-sm' : 'border-slate-300 group-hover:border-smeda-blue/50'}`}>
+              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${selected.includes(option) ? 'bg-primary border-primary shadow-sm' : 'border-border group-hover:border-primary/50'}`}>
                 {selected.includes(option) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
               </div>
               <input
@@ -204,7 +249,7 @@ function FilterGroup({
                 checked={selected.includes(option)}
                 onChange={() => onToggle(option)}
               />
-              <span className={`text-xs font-medium transition-colors ${selected.includes(option) ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'}`}>
+              <span className={`text-xs font-medium transition-colors ${selected.includes(option) ? 'text-text-main' : 'text-text-muted group-hover:text-text-main'}`}>
                 {option}
               </span>
             </label>

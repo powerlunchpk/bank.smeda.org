@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -5,27 +6,29 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { useSettings } from '@/lib/context/SettingsContext';
 
 const SLIDES = [
   {
-    image: 'https://picsum.photos/seed/sme1/1920/1080',
-    title: 'Empowering SMEs for a Prosperous Pakistan',
-    description: 'Find the right financial products tailored for your business growth and sustainability.'
+    image: 'https://picsum.photos/seed/banking1/1920/1080',
+    titleKey: 'title',
+    descKey: 'subtitle'
   },
   {
-    image: 'https://picsum.photos/seed/sme2/1920/1080',
-    title: 'Your Partner in Financial Literacy',
-    description: 'Access tutorials, compare loan schemes, and make informed decisions for your enterprise.'
+    image: 'https://picsum.photos/seed/business-office/1920/1080',
+    titleKey: 'title',
+    descKey: 'subtitle'
   },
   {
-    image: 'https://picsum.photos/seed/sme3/1920/1080',
-    title: 'Unlock Your Business Potential',
-    description: 'From working capital to long-term expansion loans, we help you navigate the banking landscape.'
+    image: 'https://picsum.photos/seed/finance-growth/1920/1080',
+    titleKey: 'title',
+    descKey: 'subtitle'
   }
 ];
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
+  const { t } = useSettings();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,7 +41,7 @@ export default function Hero() {
   const prev = () => setCurrent((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
 
   return (
-    <section className="relative h-[500px] w-full overflow-hidden bg-slate-900">
+    <section className="relative h-[500px] w-full overflow-hidden bg-slate-900 border-b border-border transition-colors">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -56,7 +59,7 @@ export default function Hero() {
             priority
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-smeda-blue/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent transition-colors" />
         </motion.div>
       </AnimatePresence>
 
@@ -68,18 +71,18 @@ export default function Hero() {
           transition={{ delay: 0.2 }}
           className="max-w-2xl"
         >
-          <h1 className="text-4xl md:text-6xl text-white mb-6 leading-tight">
-            {SLIDES[current].title}
+          <h1 className="text-4xl md:text-6xl text-white mb-6 leading-tight font-display font-bold">
+            {t.hero.title}
           </h1>
-          <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-lg">
-            {SLIDES[current].description}
+          <p className="text-lg md:text-xl text-white/90 mb-8 max-w-lg">
+            {t.hero.subtitle}
           </p>
           <div className="flex flex-wrap gap-4">
-            <a href="#products" className="bg-white text-smeda-blue px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition-all flex items-center gap-2 group">
-              Get Started <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <a href="#products" className="bg-white text-primary px-8 py-3 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center gap-2 group shadow-xl">
+              {t.hero.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <Link href="/how-it-works" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-all">
-              Learn More
+              {t.nav.howItWorks}
             </Link>
           </div>
         </motion.div>

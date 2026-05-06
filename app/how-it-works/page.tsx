@@ -7,19 +7,23 @@ import { Search, ArrowRightLeft, UserCheck, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { useSettings } from '@/lib/context/SettingsContext';
+
 export default function HowItWorks() {
+  const { t } = useSettings();
+
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-card-bg transition-colors">
       <Header />
       
       {/* Aesthetic Header */}
-      <section className="py-24 bg-slate-50 border-b border-slate-200">
+      <section className="py-24 bg-page-bg border-b border-border transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 font-bold tracking-tight">
-                Your Journey to Financial <br /> Empowerement
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-text-main mb-6 tracking-tight leading-tight transition-colors">
+                {t.howItWorks.title}
             </h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-                We make it easy for SMEs in Pakistan to navigate the complex banking world through our unified portal.
+            <p className="text-xl text-text-muted max-w-2xl mx-auto leading-relaxed transition-colors">
+                {t.howItWorks.subtitle}
             </p>
         </div>
       </section>
@@ -29,49 +33,59 @@ export default function HowItWorks() {
           <div className="space-y-40">
              <JourneyStep 
                 index="01"
-                title="Discover & Search"
-                desc="Browse the most comprehensive database of SME-specific loan products in Pakistan. Use our powerful search and smart filters to narrow down products that fit your business sector, required amount, and location."
+                title={t.howItWorks.step1Title}
+                desc={t.howItWorks.step1Desc}
                 icon={<Search className="w-10 h-10" />}
-                image="https://picsum.photos/seed/step1/800/600"
+                image="https://picsum.photos/seed/banking_search/800/600"
+                learnMoreLabel={t.howItWorks.learnMore}
+                dir={t.dir}
              />
 
              <JourneyStep 
                 index="02"
                 reversed
-                title="Compare and Analyze"
-                desc="Not sure which bank fits your needs? Use our Compare Tool to analyze up to 3 products side-by-side. Look at markup rates, loan tenures, and eligibility requirements without opening a dozen tabs."
+                title={t.howItWorks.step2Title}
+                desc={t.howItWorks.step2Desc}
                 icon={<ArrowRightLeft className="w-10 h-10" />}
-                image="https://picsum.photos/seed/step2/800/600"
+                image="https://picsum.photos/seed/finance_compare/800/600"
+                learnMoreLabel={t.howItWorks.learnMore}
+                dir={t.dir}
              />
 
              <JourneyStep 
                 index="03"
-                title="Calculate and Plan"
-                desc="Use our built-in Loan Calculator to estimate your monthly installments. Planning your repayment strategy upfront ensures business sustainability and prevents financial strain later."
+                title={t.howItWorks.step3Title}
+                desc={t.howItWorks.step3Desc}
                 icon={<ShieldCheck className="w-10 h-10" />}
-                image="https://picsum.photos/seed/step3/800/600"
+                image="https://picsum.photos/seed/business_apply/800/600"
+                learnMoreLabel={t.howItWorks.learnMore}
+                dir={t.dir}
              />
 
              <JourneyStep 
                 index="04"
                 reversed
-                title="Apply & Fast-track"
-                desc="Complete our unified application form and upload your documents securely. Your digital application is sent directly to the bank's SME relationship manager, bypassing general branch delays."
+                title={t.howItWorks.step4Title}
+                desc={t.howItWorks.step4Desc}
                 icon={<UserCheck className="w-10 h-10" />}
-                image="https://picsum.photos/seed/step4/800/600"
+                image="https://picsum.photos/seed/banking_approved/800/600"
+                learnMoreLabel={t.howItWorks.learnMore}
+                dir={t.dir}
              />
           </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-smeda-blue text-white text-center">
-          <div className="max-w-3xl mx-auto px-4">
-              <h2 className="text-4xl font-display font-bold mb-6">Ready to scale your business?</h2>
-              <p className="text-xl text-blue-100 mb-10">Start your search today and find the financial partner your business deserves.</p>
-              <Link href="/" className="bg-white text-smeda-blue px-12 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all inline-block shadow-2xl">
-                 Start Exploring Products
+      <section className="py-24 bg-primary text-white text-center shadow-inner relative overflow-hidden">
+          <div className="max-w-3xl mx-auto px-4 relative z-10">
+              <h2 className="text-4xl font-display font-bold mb-6 leading-tight">{t.howItWorks.ctaTitle}</h2>
+              <p className="text-xl text-blue-100 mb-10 leading-relaxed">{t.howItWorks.ctaSubtitle}</p>
+              <Link href="/" className="bg-white text-primary px-12 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all inline-block shadow-2xl">
+                 {t.howItWorks.ctaButton}
               </Link>
           </div>
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/5 rounded-full blur-[120px]" />
       </section>
 
       <ContactUs />
@@ -79,29 +93,48 @@ export default function HowItWorks() {
   );
 }
 
-function JourneyStep({ index, title, desc, icon, image, reversed = false }: { index: string, title: string, desc: string, icon: React.ReactNode, image: string, reversed?: boolean }) {
+function JourneyStep({ 
+  index, 
+  title, 
+  desc, 
+  icon, 
+  image, 
+  reversed = false, 
+  learnMoreLabel,
+  dir
+}: { 
+  index: string, 
+  title: string, 
+  desc: string, 
+  icon: React.ReactNode, 
+  image: string, 
+  reversed?: boolean,
+  learnMoreLabel: string,
+  dir: 'ltr' | 'rtl'
+}) {
   return (
     <div className={`flex flex-col items-center gap-16 lg:gap-24 ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
        <div className="w-full lg:w-1/2 space-y-8">
           <div className="flex items-center gap-6">
-             <span className="text-4xl lg:text-6xl font-black text-slate-100 italic tracking-tighter">{index}</span>
-             <div className="h-0.5 flex-grow bg-slate-50" />
+             <span className="text-4xl lg:text-6xl font-black text-text-muted/10 italic tracking-tighter transition-colors">{index}</span>
+             <div className="h-0.5 flex-grow bg-border transition-colors" />
           </div>
-          <div className="w-20 h-20 bg-blue-50 text-smeda-blue rounded-3xl flex items-center justify-center shadow-inner">
+          <div className="w-20 h-20 bg-primary/10 text-primary rounded-3xl flex items-center justify-center shadow-inner transition-colors">
              {icon}
           </div>
-          <h3 className="text-4xl text-slate-900 leading-tight">{title}</h3>
-          <p className="text-lg text-slate-500 leading-relaxed max-w-lg">{desc}</p>
-          <div className="flex items-center gap-2 text-smeda-blue font-bold group cursor-pointer hover:underline underline-offset-4">
-             Learn more about this step <div className="p-1 bg-blue-50 rounded group-hover:translate-x-1 transition-transform">→</div>
+          <h3 className="text-4xl text-text-main leading-tight transition-colors">{title}</h3>
+          <p className="text-lg text-text-muted leading-relaxed max-w-lg transition-colors">{desc}</p>
+          <div className="flex items-center gap-2 text-primary font-bold group cursor-pointer hover:underline underline-offset-4 transition-all">
+             {learnMoreLabel} <div className={`p-1 bg-primary/10 rounded group-hover:${dir === 'rtl' ? '-translate-x-1' : 'translate-x-1'} transition-transform`}>{dir === 'rtl' ? '←' : '→'}</div>
           </div>
        </div>
        <div className="w-full lg:w-1/2 relative group">
-          <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl relative z-10 border border-slate-100">
+          <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl relative z-10 border border-border transition-colors">
              <Image src={image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
           </div>
-          <div className={`absolute -top-10 ${reversed ? '-left-10' : '-right-10'} w-64 h-64 bg-blue-50 rounded-full blur-[100px] -z-10`} />
+          <div className={`absolute -top-10 ${reversed ? '-left-10' : '-right-10'} w-64 h-64 bg-primary/10 rounded-full blur-[100px] -z-10`} />
        </div>
     </div>
   );
 }
+

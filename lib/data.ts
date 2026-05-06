@@ -4,7 +4,7 @@ export const MOCK_PRODUCTS: BankingProduct[] = [
   {
     id: '1',
     bankName: 'HBL (Habib Bank Limited)',
-    bankLogo: 'https://picsum.photos/seed/hbl/100/100',
+    bankLogo: 'https://picsum.photos/seed/bank_hbl/100/100',
     productName: 'HBL Small Business Finance',
     loanAmount: { min: 500000, max: 15000000, currency: 'PKR' },
     purpose: ['Working Capital', 'Expansion'],
@@ -19,7 +19,7 @@ export const MOCK_PRODUCTS: BankingProduct[] = [
   {
     id: '2',
     bankName: 'Meezan Bank',
-    bankLogo: 'https://picsum.photos/seed/meezan/100/100',
+    bankLogo: 'https://picsum.photos/seed/bank_meezan/100/100',
     productName: 'SME Karobar Financing',
     loanAmount: { min: 1000000, max: 25000000, currency: 'PKR' },
     purpose: ['Asset Purchase', 'Working Capital'],
@@ -34,7 +34,7 @@ export const MOCK_PRODUCTS: BankingProduct[] = [
   {
     id: '3',
     bankName: 'Bank Alfalah',
-    bankLogo: 'https://picsum.photos/seed/alfalah/100/100',
+    bankLogo: 'https://picsum.photos/seed/bank_alfalah/100/100',
     productName: 'Alfalah SME Quick Finance',
     loanAmount: { min: 500000, max: 5000000, currency: 'PKR' },
     purpose: ['Emergency Funds', 'Inventory'],
@@ -49,7 +49,7 @@ export const MOCK_PRODUCTS: BankingProduct[] = [
   {
     id: '4',
     bankName: 'National Bank of Pakistan (NBP)',
-    bankLogo: 'https://picsum.photos/seed/nbp/100/100',
+    bankLogo: 'https://picsum.photos/seed/bank_nbp/100/100',
     productName: 'NBP Saibaan SME',
     loanAmount: { min: 100000, max: 10000000, currency: 'PKR' },
     purpose: ['Infrastructure', 'Agri-processing'],
@@ -64,9 +64,9 @@ export const MOCK_PRODUCTS: BankingProduct[] = [
 ];
 
 export const MOCK_VIDEOS: VideoTutorial[] = [
-  { id: 'v1', title: 'How to apply for PMYBL', thumbnail: 'https://picsum.photos/seed/v1/400/225', duration: '5:30', url: '#' },
-  { id: 'v2', title: 'Understanding KIBOR Rates', thumbnail: 'https://picsum.photos/seed/v2/400/225', duration: '3:45', url: '#' },
-  { id: 'v3', title: 'Financial Literacy for SMEs', thumbnail: 'https://picsum.photos/seed/v3/400/225', duration: '12:10', url: '#' },
-  { id: 'v4', title: 'SBP Refinance Schemes Explained', thumbnail: 'https://picsum.photos/seed/v4/400/225', duration: '8:20', url: '#' },
-  { id: 'v5', title: 'Choosing the right Bank', thumbnail: 'https://picsum.photos/seed/v5/400/225', duration: '4:15', url: '#' }
+  { id: 'v1', title: 'How to apply for PMYBL', thumbnail: 'https://picsum.photos/seed/finance_apply/400/225', duration: '5:30', url: '#' },
+  { id: 'v2', title: 'Understanding KIBOR Rates', thumbnail: 'https://picsum.photos/seed/finance_rates/400/225', duration: '3:45', url: '#' },
+  { id: 'v3', title: 'Financial Literacy for SMEs', thumbnail: 'https://picsum.photos/seed/finance_literacy/400/225', duration: '12:10', url: '#' },
+  { id: 'v4', title: 'SBP Refinance Schemes Explained', thumbnail: 'https://picsum.photos/seed/finance_sbp/400/225', duration: '8:20', url: '#' },
+  { id: 'v5', title: 'Choosing the right Bank', thumbnail: 'https://picsum.photos/seed/finance_bank/400/225', duration: '4:15', url: '#' }
 ];

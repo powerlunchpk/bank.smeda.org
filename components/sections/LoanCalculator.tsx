@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Calculator, Percent, Calendar, DollarSign, ArrowRight, RefreshCcw } from 'lucide-react';
 
+import { useSettings } from '@/lib/context/SettingsContext';
+
 export default function LoanCalculator() {
+  const { t } = useSettings();
   const [amount, setAmount] = useState<number>(1000000);
   const [rate, setRate] = useState<number>(12);
   const [tenure, setTenure] = useState<number>(5);
@@ -22,43 +25,43 @@ export default function LoanCalculator() {
   const totalInterest = totalPayment - amount;
 
   return (
-    <section className="py-20 bg-smeda-blue">
+    <section className="py-20 bg-primary transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="text-white">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-400/20 text-blue-100 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold uppercase tracking-widest mb-6">
               <Calculator className="w-3.5 h-3.5" />
-              <span>Smart Planning Tool</span>
+              <span>{t.calculator.planningTool}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
-              Estimate Your Monthly Loan Payments
+              {t.calculator.title}
             </h2>
-            <p className="text-lg text-blue-100/80 mb-8 max-w-lg leading-relaxed">
-              Use our quick loan calculator to plan your business finances. Just enter your requirements and see your estimated monthly installments.
+            <p className="text-lg text-white/80 mb-8 max-w-lg leading-relaxed">
+              {t.calculator.subtitle}
             </p>
             
             <div className="grid grid-cols-2 gap-6 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
               <div>
-                <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Monthly EMI</p>
-                <p className="text-3xl font-black">PKR {emi.toLocaleString()}</p>
+                <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">{t.calculator.emi}</p>
+                <p className="text-3xl font-black">{t.calculator.pkr} {emi.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Total Interest</p>
-                <p className="text-3xl font-black">PKR {totalInterest.toLocaleString()}</p>
+                <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">{t.calculator.totalInterest}</p>
+                <p className="text-3xl font-black">{t.calculator.pkr} {totalInterest.toLocaleString()}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 border border-blue-100">
+          <div className="bg-card-bg rounded-[2rem] shadow-2xl p-8 md:p-10 border border-border transition-colors">
             <div className="space-y-8">
               {/* Amount */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
-                    <DollarSign className="w-4 h-4 text-smeda-blue" />
-                    Loan Amount
+                  <label className="text-sm font-bold text-text-muted uppercase tracking-wider flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-primary transition-colors" />
+                    {t.calculator.amount}
                   </label>
-                  <span className="text-lg font-bold text-smeda-blue">PKR {amount.toLocaleString()}</span>
+                  <span className="text-lg font-bold text-primary transition-colors">{t.calculator.pkr} {amount.toLocaleString()}</span>
                 </div>
                 <input
                   type="range"
@@ -67,18 +70,18 @@ export default function LoanCalculator() {
                   step="100000"
                   value={amount}
                   onChange={(e) => setAmount(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-smeda-blue"
+                  className="w-full h-2 bg-page-bg rounded-lg appearance-none cursor-pointer accent-primary"
                 />
               </div>
 
               {/* Interest Rate */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
-                    <Percent className="w-4 h-4 text-smeda-blue" />
-                    Interest Rate (Annual)
+                  <label className="text-sm font-bold text-text-muted uppercase tracking-wider flex items-center gap-2">
+                    <Percent className="w-4 h-4 text-primary transition-colors" />
+                    {t.calculator.rate}
                   </label>
-                  <span className="text-lg font-bold text-smeda-blue">{rate}%</span>
+                  <span className="text-lg font-bold text-primary transition-colors">{rate}%</span>
                 </div>
                 <input
                   type="range"
@@ -87,18 +90,18 @@ export default function LoanCalculator() {
                   step="0.5"
                   value={rate}
                   onChange={(e) => setRate(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-smeda-blue"
+                  className="w-full h-2 bg-page-bg rounded-lg appearance-none cursor-pointer accent-primary"
                 />
               </div>
 
               {/* Tenure */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-smeda-blue" />
-                    Loan Tenure (Years)
+                  <label className="text-sm font-bold text-text-muted uppercase tracking-wider flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-primary transition-colors" />
+                    {t.calculator.tenure}
                   </label>
-                  <span className="text-lg font-bold text-smeda-blue">{tenure} Years</span>
+                  <span className="text-lg font-bold text-primary transition-colors">{tenure} {t.calculator.years}</span>
                 </div>
                 <input
                   type="range"
@@ -107,20 +110,20 @@ export default function LoanCalculator() {
                   step="1"
                   value={tenure}
                   onChange={(e) => setTenure(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-smeda-blue"
+                  className="w-full h-2 bg-page-bg rounded-lg appearance-none cursor-pointer accent-primary"
                 />
               </div>
 
               <div className="pt-4 flex gap-4">
                 <Link 
                   href="/#products"
-                  className="flex-grow bg-smeda-blue text-white py-4 rounded-2xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2"
+                  className="flex-grow bg-primary text-white py-4 rounded-2xl font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                 >
-                  Find a Loan <ArrowRight className="w-4 h-4" />
+                  {t.calculator.findLoan} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <button 
                   onClick={() => { setAmount(1000000); setRate(12); setTenure(5); }}
-                  className="p-4 bg-slate-50 text-slate-400 hover:text-smeda-blue hover:bg-slate-100 rounded-2xl transition-all"
+                  className="p-4 bg-page-bg text-text-muted hover:text-primary hover:bg-page-bg transition-all rounded-2xl"
                 >
                   <RefreshCcw className="w-5 h-5" />
                 </button>

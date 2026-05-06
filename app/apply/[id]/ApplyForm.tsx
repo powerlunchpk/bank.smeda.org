@@ -16,30 +16,33 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 
-const STEPS = [
-  { id: 1, title: 'Business details', icon: <Building2 className="w-4 h-4" /> },
-  { id: 2, title: 'Owner info', icon: <User className="w-4 h-4" /> },
-  { id: 3, title: 'Loan requirements', icon: <DollarSign className="w-4 h-4" /> },
-  { id: 4, title: 'Documentation', icon: <Upload className="w-4 h-4" /> }
-];
+import { useSettings } from '@/lib/context/SettingsContext';
 
 export default function ApplyForm({ product }: { product: BankingProduct }) {
+  const { t } = useSettings();
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+
+  const STEPS = [
+    { id: 1, title: t.applyForm.businessDetails, icon: <Building2 className="w-4 h-4" /> },
+    { id: 2, title: t.applyForm.ownerInfo, icon: <User className="w-4 h-4" /> },
+    { id: 3, title: t.applyForm.loanRequirements, icon: <DollarSign className="w-4 h-4" /> },
+    { id: 4, title: t.applyForm.documentation, icon: <Upload className="w-4 h-4" /> }
+  ];
 
   if (submitted) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-24 text-center">
-        <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner shadow-green-200">
+        <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner shadow-green-200">
           <CheckCircle2 className="w-10 h-10" />
         </motion.div>
-        <h1 className="text-4xl font-display font-bold text-slate-900 mb-4">Application Submitted!</h1>
-        <p className="text-slate-500 mb-12 max-w-md mx-auto">
-          Your application for <strong>{product.productName}</strong> has been received by <strong>{product.bankName}</strong>. You will receive a tracking ID via SMS shortly.
+        <h1 className="text-4xl font-display font-bold text-text-main mb-4 transition-colors">{t.applyForm.submitted}</h1>
+        <p className="text-text-muted mb-12 max-w-md mx-auto transition-colors">
+          {t.applyForm.submittedDesc.replace('{product}', product.productName).replace('{bank}', product.bankName)}
         </p>
         <div className="grid sm:grid-cols-2 gap-4 max-w-sm mx-auto">
-          <Link href="/" className="bg-smeda-blue text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/10 text-center">Return Home</Link>
-          <button className="bg-slate-50 text-slate-600 px-6 py-3 rounded-xl font-bold border border-slate-200">Track Application</button>
+          <Link href="/" className="bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 text-center hover:opacity-90 transition-all">{t.applyForm.returnHome}</Link>
+          <button className="bg-card-bg text-text-muted px-6 py-3 rounded-xl font-bold border border-border transition-colors hover:bg-page-bg">{t.applyForm.track}</button>
         </div>
       </div>
     );
@@ -49,60 +52,60 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
     <div className="flex flex-col lg:flex-row gap-12">
       {/* Form Area */}
       <div className="flex-grow">
-        <div className="bg-white rounded-3xl p-8 md:p-10 border border-slate-200 shadow-sm relative overflow-hidden">
+        <div className="bg-card-bg rounded-3xl p-8 md:p-10 border border-border shadow-sm relative overflow-hidden transition-colors">
            {/* Progress bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-page-bg">
             <motion.div 
-              className="h-full bg-smeda-blue" 
+              className="h-full bg-primary" 
               initial={{ width: '0%' }}
               animate={{ width: `${(step / STEPS.length) * 100}%` }}
             />
           </div>
 
           <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-2">Step {step} of {STEPS.length}</p>
-            <h2 className="text-2xl font-bold text-slate-900">{STEPS[step-1].title}</h2>
+            <p className="text-[10px] font-bold text-text-muted uppercase tracking-[0.3em] mb-2">{t.applyForm.step.replace('{step}', step.toString()).replace('{total}', STEPS.length.toString())}</p>
+            <h2 className="text-2xl font-bold text-text-main transition-colors">{STEPS[step-1].title}</h2>
           </div>
 
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
-              initial={{ opacity: 0, x: 10 }}
+              initial={{ opacity: 0, x: t.dir === 'rtl' ? -10 : 10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
+              exit={{ opacity: 0, x: t.dir === 'rtl' ? 10 : -10 }}
               className="space-y-6"
             >
               {step === 1 && (
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <Input label="Business Name" placeholder="ABC Manufacturing" />
-                  <Input label="NTN Number" placeholder="1234567-8" />
-                  <Select label="Entity Type" options={['Sole Proprietorship', 'Partnership', 'Private Limited']} />
-                  <Input label="Date of Incorporation" placeholder="DD-MM-YYYY" />
+                  <Input label={t.applyForm.placeholders.businessName} placeholder="ABC Manufacturing" />
+                  <Input label={t.applyForm.placeholders.ntn} placeholder="1234567-8" />
+                  <Select label="Entity Type" options={t.dir === 'rtl' ? ['سول پروپرائٹر شپ', 'پارٹنرشپ', 'پرائیویٹ لمیٹڈ'] : ['Sole Proprietorship', 'Partnership', 'Private Limited']} />
+                  <Input label={t.applyForm.placeholders.incorporation} placeholder="DD-MM-YYYY" />
                   <div className="sm:col-span-2">
-                    <Input label="Business Address" placeholder="Street, City, Province" />
+                    <Input label={t.applyForm.placeholders.address} placeholder="Street, City, Province" />
                   </div>
                 </div>
               )}
 
               {step === 2 && (
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <Input label="Primary Owner Name" placeholder="John Doe" />
-                  <Input label="CNIC Number" placeholder="12345-1234567-1" />
-                  <Input label="Contact Number" placeholder="+92 300 0000000" />
-                  <Input label="Email Address" placeholder="owner@business.com" />
+                  <Input label={t.applyForm.placeholders.ownerName} placeholder="John Doe" />
+                  <Input label={t.applyForm.placeholders.cnic} placeholder="12345-1234567-1" />
+                  <Input label={t.applyForm.placeholders.contact} placeholder="+92 300 0000000" />
+                  <Input label={t.applyForm.placeholders.email} placeholder="owner@business.com" />
                 </div>
               )}
 
               {step === 3 && (
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <Input label="Required Loan Amount" placeholder="e.g. 5,000,000" type="number" defaultValue={product.loanAmount.max.toString()} />
-                  <Select label="Repayment Tenure" options={['1 Year', '2 Years', '3 Years', '5 Years']} />
+                  <Input label={t.applyForm.placeholders.amount} placeholder="e.g. 5,000,000" type="number" defaultValue={product.loanAmount.max.toString()} />
+                  <Select label="Repayment Tenure" options={t.dir === 'rtl' ? ['1 سال', '2 سال', '3 سال', '5 سال'] : ['1 Year', '2 Years', '3 Years', '5 Years']} />
                   <div className="sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Purpose of financing</label>
+                    <label className="text-xs font-bold text-text-muted uppercase tracking-wider block mb-2 transition-colors">{t.applyForm.placeholders.purpose}</label>
                     <textarea 
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-smeda-blue/20 focus:border-smeda-blue outline-none h-24" 
-                      placeholder="Briefly describe why you need this financing..."
-                      defaultValue={`Applying for ${product.productName} to support business growth and operations.`}
+                      className="w-full bg-page-bg border border-border rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none h-24 text-text-main transition-all placeholder:text-text-muted/40" 
+                      placeholder={t.applyForm.placeholders.purposeDesc}
+                      defaultValue={t.dir === 'rtl' ? `کاروبار کی ترقی اور آپریشنز کے لیے ${product.productName} کے لیے اپلائی کر رہا ہوں۔` : `Applying for ${product.productName} to support business growth and operations.`}
                     />
                   </div>
                 </div>
@@ -110,19 +113,21 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
 
               {step === 4 && (
                 <div className="space-y-4">
-                  <p className="text-sm text-slate-500 mb-4">Please upload high-quality scans of the following documents:</p>
+                  <p className="text-sm text-text-muted mb-4 transition-colors">
+                    {t.dir === 'rtl' ? "براہ کرم درج ذیل دستاویزات کے اعلیٰ معیار کے اسکین اپ لوڈ کریں:" : "Please upload high-quality scans of the following documents:"}
+                  </p>
                   {[
-                    'Scanned copy of CNIC (Front & Back)',
-                    'Latest 6 Months Bank Statement',
-                    'Business Registration Documents',
-                    'Active Taxpayer Certificate (NTN)'
+                    t.dir === 'rtl' ? 'شناختی کارڈ کی اسکین شدہ کاپی (سامنے اور پیچھے)' : 'Scanned copy of CNIC (Front & Back)',
+                    t.dir === 'rtl' ? 'گزشتہ 6 ماہ کی بینک سٹیٹمنٹ' : 'Latest 6 Months Bank Statement',
+                    t.dir === 'rtl' ? 'کاروبار کی رجسٹریشن کے دستاویزات' : 'Business Registration Documents',
+                    t.dir === 'rtl' ? 'ایکٹو ٹیکس دہندہ سرٹیفکیٹ (NTN)' : 'Active Taxpayer Certificate (NTN)'
                   ].map((doc, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl group hover:border-smeda-blue transition-colors cursor-pointer">
+                    <div key={i} className="flex items-center justify-between p-4 bg-page-bg border-2 border-dashed border-border rounded-2xl group hover:border-primary transition-colors cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <Upload className="w-5 h-5 text-slate-400 group-hover:text-smeda-blue" />
-                        <span className="text-sm font-semibold text-slate-700">{doc}</span>
+                        <Upload className="w-5 h-5 text-text-muted group-hover:text-primary transition-colors" />
+                        <span className="text-sm font-semibold text-text-main transition-colors">{doc}</span>
                       </div>
-                      <span className="text-[10px] font-bold text-slate-400">MAX 5MB</span>
+                      <span className="text-[10px] font-bold text-text-muted uppercase">{t.applyForm.uploadLimit}</span>
                     </div>
                   ))}
                 </div>
@@ -130,13 +135,13 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
             </motion.div>
           </AnimatePresence>
 
-          <div className="mt-12 flex items-center justify-between pt-8 border-t border-slate-100">
+          <div className="mt-12 flex items-center justify-between pt-8 border-t border-border">
             <button 
               onClick={() => setStep(s => Math.max(1, s - 1))}
               disabled={step === 1}
-              className={`flex items-center gap-2 font-bold text-sm transition-colors ${step === 1 ? 'text-slate-200' : 'text-slate-500 hover:text-slate-900'}`}
+              className={`flex items-center gap-2 font-bold text-sm transition-colors ${step === 1 ? 'text-border' : 'text-text-muted hover:text-text-main'}`}
             >
-              <ArrowLeft className="w-4 h-4" /> Previous Step
+              <ArrowLeft className={`w-4 h-4 ${t.dir === 'rtl' ? 'rotate-180' : ''}`} /> {t.applyForm.prev}
             </button>
             <button 
               onClick={() => {
@@ -146,9 +151,9 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
                   setStep(s => s + 1);
                 }
               }}
-              className="bg-smeda-blue text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-500/10"
+              className="bg-primary text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-primary/20"
             >
-              {step === STEPS.length ? 'Final Submit' : 'Continue'} <ArrowRight className="w-4 h-4" />
+              {step === STEPS.length ? t.applyForm.submit : t.applyForm.next} <ArrowRight className={`w-4 h-4 ${t.dir === 'rtl' ? 'rotate-180' : ''}`} />
             </button>
           </div>
         </div>
@@ -156,35 +161,35 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
 
       {/* Side Info */}
       <aside className="lg:w-80 flex-shrink-0 space-y-6">
-        <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+        <div className="bg-card-bg rounded-3xl p-8 border border-border shadow-sm transition-colors">
             <div className="flex items-center gap-4 mb-6">
-               <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 p-2 flex items-center justify-center">
+               <div className="w-12 h-12 rounded-xl bg-page-bg border border-border p-2 flex items-center justify-center transition-colors">
                  <Image src={product.bankLogo} alt={product.bankName} width={40} height={40} className="object-contain" referrerPolicy="no-referrer" />
                </div>
                <div>
-                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Applying for</p>
-                 <p className="text-xs font-bold text-smeda-blue line-clamp-1">{product.productName}</p>
+                 <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">{t.dir === 'rtl' ? "اپلائی کیا جا رہا ہے" : "Applying for"}</p>
+                 <p className="text-xs font-bold text-primary line-clamp-1">{product.productName}</p>
                </div>
             </div>
             <div className="space-y-2">
                 {STEPS.map((s) => (
                   <div key={s.id} className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${step > s.id ? 'bg-green-100 text-green-600' : step === s.id ? 'bg-smeda-blue text-white' : 'bg-slate-100 text-slate-400'}`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${step > s.id ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' : step === s.id ? 'bg-primary text-white' : 'bg-page-bg text-text-muted'}`}>
                       {step > s.id ? <CheckCircle2 className="w-4 h-4" /> : s.icon}
                     </div>
-                    <span className={`text-xs font-bold ${step === s.id ? 'text-slate-900' : 'text-slate-400'}`}>{s.title}</span>
+                    <span className={`text-xs font-bold ${step === s.id ? 'text-text-main' : 'text-text-muted'}`}>{s.title}</span>
                   </div>
                 ))}
             </div>
         </div>
 
-        <div className="p-6 bg-amber-50 rounded-2xl border border-amber-100 flex gap-4">
-            <div className="p-2 bg-white rounded-lg self-start text-amber-600">
+        <div className="p-6 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex gap-4 transition-colors">
+            <div className="p-2 bg-card-bg rounded-lg self-start text-amber-500 border border-amber-500/20">
                 <Info className="w-5 h-5" />
             </div>
             <div>
-                <p className="text-xs font-bold text-amber-800 mb-1">Important</p>
-                <p className="text-[10px] leading-relaxed text-amber-900/60 font-medium">Please ensure all figures and document scans are accurate. Mismatching info can lead to processing delays or rejection.</p>
+                <p className="text-xs font-bold text-amber-600 mb-1">{t.applyForm.important}</p>
+                <p className="text-[10px] leading-relaxed text-amber-900/60 dark:text-amber-200/60 font-medium">{t.applyForm.importantDesc}</p>
             </div>
         </div>
       </aside>
@@ -195,10 +200,10 @@ export default function ApplyForm({ product }: { product: BankingProduct }) {
 function Input({ label, placeholder, type = 'text', defaultValue }: { label: string, placeholder: string, type?: string, defaultValue?: string }) {
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">{label}</label>
+      <label className="text-xs font-bold text-text-muted uppercase tracking-wider block transition-colors">{label}</label>
       <input 
         type={type} 
-        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-smeda-blue/20 focus:border-smeda-blue outline-none transition-all placeholder:text-slate-300"
+        className="w-full bg-page-bg border border-border rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-text-muted/40 text-text-main"
         placeholder={placeholder}
         defaultValue={defaultValue}
       />
@@ -209,10 +214,11 @@ function Input({ label, placeholder, type = 'text', defaultValue }: { label: str
 function Select({ label, options }: { label: string, options: string[] }) {
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">{label}</label>
-      <select className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-smeda-blue/20 focus:border-smeda-blue outline-none transition-all cursor-pointer">
+      <label className="text-xs font-bold text-text-muted uppercase tracking-wider block transition-colors">{label}</label>
+      <select className="w-full bg-page-bg border border-border rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer text-text-main">
         {options.map(o => <option key={o} value={o}>{o}</option>)}
       </select>
     </div>
   );
 }
+
