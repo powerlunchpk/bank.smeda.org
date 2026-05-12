@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui;
+  --font-display: var(--font-display), ui-sans-serif, system-ui;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Tahoma', serif;
+  
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-page-bg: var(--page-bg);
+  --color-card-bg: var(--card-bg);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+}
+
+:root {
+  --primary: #006747; /* Default Classic Green */
+  --secondary: #fdb913; /* Classic Gold */
+  --page-bg: #f9fafb;
+  --card-bg: #ffffff;
+  --text-main: #111827;
+  --text-muted: #4b5563;
+}
+
+/* Classic SMEDA Theme */
+.classic {
+  --primary: #006747;
+  --secondary: #fdb913;
+}
+
+/* Corporate/Financial SMEDA Theme */
+.corporate {
+  --primary: #1e3a8a; /* Navy Blue */
+  --secondary: #3b82f6; /* Azure */
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --page-bg: #030612;
+  --card-bg: #0d121f;
+  --text-main: #f9fafb;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.dark.classic {
+  --primary: #10b981; /* Brighter Emerald for dark mode */
+}
+
+.dark.corporate {
+  --primary: #60a5fa; /* Lighter Blue for dark mode */
+}
+
+@layer base {
+  :root {
+    --border: #e2e8f0;
+  }
+
+  body {
+    @apply bg-page-bg text-text-main transition-colors duration-300 overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-display font-semibold tracking-tight text-text-main;
+  }
+
+  /* Urdu specific adjustments */
+  [dir="rtl"] {
+    font-family: var(--font-urdu), serif;
+    line-height: 1.8;
+  }
+}
