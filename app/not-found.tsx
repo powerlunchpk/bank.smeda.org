@@ -1,9 +1,8 @@
 'use client';
 
-
+import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { useSettings } from '@/lib/context/SettingsContext';
-import Link from 'next/link';
 
 export default function NotFound() {
   useSettings();

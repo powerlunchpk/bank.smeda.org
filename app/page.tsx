@@ -88,7 +88,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative pb-32">
+    <main className="min-h-screen relative pb-32 overflow-x-hidden">
       <Header />
       <OnboardingTour />
       <Hero />

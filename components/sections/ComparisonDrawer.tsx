@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import { motion } from 'motion/react';
 import { X, ArrowRightLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';

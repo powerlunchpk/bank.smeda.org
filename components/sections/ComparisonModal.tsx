@@ -304,7 +304,7 @@ function ComparisonRow({ label, icon, children }: { label: string, icon: React.R
     <div className="grid grid-cols-[80px_repeat(3,1fr)] sm:grid-cols-[140px_repeat(3,1fr)] gap-2 sm:gap-4 py-3 sm:py-5 border-b border-border/40 items-center hover:bg-primary/[0.03] transition-colors group/row">
       <div className="flex items-center gap-1.5 sm:gap-2.5">
         <div className="p-1 sm:p-2 bg-primary/[0.08] text-primary rounded-lg flex-shrink-0 group-hover/row:bg-primary/10 transition-colors">
-          {React.cloneElement(icon as React.ReactElement, { className: 'w-3.5 h-3.5 sm:w-4 sm:h-4' })}
+          {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: 'w-3.5 h-3.5 sm:w-4 sm:h-4' })}
         </div>
         <span className="text-[7px] sm:text-[11px] font-bold text-text-muted uppercase tracking-widest leading-tight">{label}</span>
       </div>

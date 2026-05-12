@@ -33,7 +33,7 @@ export default function LoanCalculator() {
               <Calculator className="w-3.5 h-3.5" />
               <span>{t.calculator.planningTool}</span>
             </div>
-            <h2 className="text-4xl text-white md:text-5xl font-display font-bold mb-6 leading-tight">
+            <h2 className="text-4xl text-white/80 md:text-5xl font-display font-bold mb-6 leading-tight">
               {t.calculator.title}
             </h2>
             <p className="text-lg text-white/80 mb-8 max-w-lg leading-relaxed">

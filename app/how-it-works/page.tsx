@@ -38,7 +38,7 @@ export default function HowItWorks() {
                 icon={<Search className="w-10 h-10" />}
                 image="https://picsum.photos/seed/banking_search/800/600"
                 learnMoreLabel={t.howItWorks.learnMore}
-                dir={t.dir}
+                dir={t.dir as 'ltr' | 'rtl'}
              />
 
              <JourneyStep 
@@ -49,7 +49,7 @@ export default function HowItWorks() {
                 icon={<ArrowRightLeft className="w-10 h-10" />}
                 image="https://picsum.photos/seed/finance_compare/800/600"
                 learnMoreLabel={t.howItWorks.learnMore}
-                dir={t.dir}
+                dir={t.dir as 'ltr' | 'rtl'}
              />
 
              <JourneyStep 
@@ -59,7 +59,7 @@ export default function HowItWorks() {
                 icon={<ShieldCheck className="w-10 h-10" />}
                 image="https://picsum.photos/seed/business_apply/800/600"
                 learnMoreLabel={t.howItWorks.learnMore}
-                dir={t.dir}
+                dir={t.dir as 'ltr' | 'rtl'}
              />
 
              <JourneyStep 
@@ -70,7 +70,7 @@ export default function HowItWorks() {
                 icon={<UserCheck className="w-10 h-10" />}
                 image="https://picsum.photos/seed/banking_approved/800/600"
                 learnMoreLabel={t.howItWorks.learnMore}
-                dir={t.dir}
+                dir={t.dir as 'ltr' | 'rtl'}
              />
           </div>
       </section>
